@@ -1,0 +1,5 @@
+# database
+*.sqlite3
+
+# documentation
+docs/build
