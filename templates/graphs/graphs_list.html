@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h1>Graphs</h1>
+
+    <ul>
+    {% for campaign in campaigns %}
+
+      
+        <li>
+          <a href="{{ campaign.id }}">
+            {{ campaign.name }}
+          </a>
+        </li>  
+        
+    {% endfor %}
+    <ul>
+
+{% endblock %}
