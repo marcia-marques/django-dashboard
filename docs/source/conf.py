@@ -15,8 +15,8 @@ import sys
 import django
 
 sys.path.insert(0, os.path.abspath('../..'))
-sys.path.insert(0, os.path.abspath('../../graphs/'))
 sys.path.insert(0, os.path.abspath('../../data/'))
+sys.path.insert(0, os.path.abspath('../../graphs/'))
 
 os.environ['DJANGO_SETTINGS_MODULE'] = 'dashboard.settings'
 django.setup()
@@ -38,6 +38,8 @@ release = '0.0.1'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    'sphinx.ext.autodoc',
+    'sphinx.ext.viewcode',  # source code
 ]
 
 # Add any paths that contain templates here, relative to this directory.
