@@ -12,8 +12,6 @@ Welcome to dashboard's documentation!
 
    modules/modules
 
-
-
 Indices and tables
 ==================
 

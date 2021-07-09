@@ -1,7 +1,7 @@
-Views
-=====
+Models
+======
 
-.. automodule:: graphs.views
+.. automodule:: data.models
    :members:
    :undoc-members:
    :show-inheritance:

@@ -39,7 +39,10 @@ release = '0.0.1'
 # ones.
 extensions = [
     'sphinx.ext.autodoc',
+    # 'sphinx.ext.coverage',
+    'sphinx.ext.napoleon',  # NumPy and Google style docstrings
     'sphinx.ext.viewcode',  # source code
+    'm2r2',  # converts a markdown to rst
 ]
 
 # Add any paths that contain templates here, relative to this directory.

@@ -24,4 +24,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', HomeView.as_view(), name='home'),
     path('data/', include('data.urls')),
+    path('graphs/', include('graphs.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
