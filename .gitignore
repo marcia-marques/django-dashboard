@@ -1,6 +1,9 @@
 # database
 *.sqlite3
 
+# pycache
+__pycache__
+
 # documentation
 docs/build
 
