@@ -5,3 +5,4 @@ Graphs
    :maxdepth: 4
 
    views
+   mygraphs
