@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+	<h1>Measurements Campaigns</h1>
+
+	<p>List of measurements campaigns.</p>
+
+	<table class="table mb-0 align-middle">
+	<thead>
+      <tr>
+      	<th>Picture</th>
+      	<th>Campaign</th>
+        <th>Location</th>
+        <th>File</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for campaign in campaigns %}
+        <tr>
+          <td><img src="{{ campaign.picture.url }}" alt="{{ campaign.name }}" style="width:90px;"></td>
+          <td>
+          	<b>{{ campaign.name }}</b> <br>
+            {{ campaign.description }}
+          </td>
+          <td>
+          	{{ campaign.latitude }} <br>
+          	{{ campaign.longitude }}
+          </td>
+          <td>
+            <a href="{{ campaign.file.url }}" download={{ campaign.file.name }} class="btn btn-primary btn-sm">
+              Download
+            </a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+    </table>
+   
+{% endblock %}
