@@ -3,7 +3,7 @@ import pandas as pd
 
 from data.models import Campaign
 from .forms import DateRangeForm
-from .mygraphs import time_series
+from .mygraphs import bokeh_dashboard
 
 
 def graphs_list(request):
@@ -22,6 +22,8 @@ def graphs_detail(request, id):
     # initial values
     start_date = df.DATE_TIME.min()
     end_date = df.DATE_TIME.max()
+    var1 = [x for x in df.columns if 'CO2_dry' in x][0]
+    var2 = [x for x in df.columns if 'CH4_dry' in x][0]
 
     initial_data = {'start_date': start_date,
                     'end_date': end_date}
@@ -35,7 +37,7 @@ def graphs_detail(request, id):
     # dataframe from range
     df = df.loc[(df.DATE_TIME >= start_date) & (df.DATE_TIME <= end_date)]
 
-    script, div = time_series(df)
+    script, div = bokeh_dashboard(df, var1, var2)
     context = {'campaign': campaign,
                'form': form,
                'script': script, 'div': div}
