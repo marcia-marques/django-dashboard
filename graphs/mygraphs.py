@@ -1,15 +1,11 @@
-import pandas as pd
-
 from bokeh.plotting import figure
 from bokeh.embed import components
 from bokeh.models import Range1d, ColumnDataSource, LinearAxis, HoverTool
 
 
-def time_series(obj):
+def time_series(df):
 
-    # dataframe
-    df = pd.read_csv(obj.file)
-    df['DATE_TIME'] = pd.to_datetime(df.DATE_TIME)
+    # source
     source = ColumnDataSource(df)
 
     # variables
@@ -19,7 +15,6 @@ def time_series(obj):
     # Hover tools
     hover_tool_p = HoverTool(
         tooltips=[('date', '@DATE_TIME{%Y-%m-%d %H}'),
-                  # tooltips=[('date', '@DATE_TIME{%m/%d/%Y %H}'),
                   ('value', '$y')],
         formatters={'@DATE_TIME': 'datetime'},
     )
