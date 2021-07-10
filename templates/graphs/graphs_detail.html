@@ -4,6 +4,52 @@
 
     <h1>{{ campaign.name }}</h1>
 
+    <!-- Form -->
+    <div align="center">
+    <div class="col-lg-8">
+        <form action="." method="POST">
+        {% csrf_token %}
+
+        <!-- Form fields -->
+        <div class="row justify-content-center">
+            <div class="col-sm-3">
+                <div class="row text-muted" style="font-size: 14px">Start date:</div>
+                <div class="row">{{ form.start_date }}</div>
+            </div>
+            <div class="col-sm-3">
+                <div class="row text-muted" style="font-size: 14px">End date:</div>
+                <div class="row">{{ form.end_date }}</div>
+            </div>
+        </div>
+        <!-- Form fields END -->
+
+        <!-- Form button -->
+        <div class="row-sm-3 text-left>
+        {% if form.errors %}
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <div class="text-danger" style="font-size:12px;">
+                    {{ error|escape }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        {% for error in form.non_field_errors %}
+            <div class="text-danger" style="font-size:12px;">
+                {{ error|escape }}
+            </div>
+        {% endfor %}
+        {% endif %}
+        </div>
+        <div  class="row text-left mb-1">
+        <input style='margin-top: 5px;' type="submit" class="btn btn-primary btn-sm" value="Update">
+        </div>
+        <!-- Form button END -->
+
+        </form>
+    </div>
+    </div>
+    <!-- Form END -->
+
     {{div| safe}}
     {{script | safe}}
 
