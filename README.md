@@ -8,3 +8,7 @@ Django dashboard using Bokeh.
 ## Screenshots
 
 ![image](https://user-images.githubusercontent.com/75334161/125207264-a3a2e980-e261-11eb-86c6-14b0a39784b4.png)
+
+## License
+
+The source code is released under the [MIT License](https://github.com/marcia-marques/django-dashboard/blob/master/LICENSE).
