@@ -4,8 +4,9 @@
 
     <h1>{{ campaign.name }}</h1>
 
-    <!-- Form -->
     <div align="center">
+
+    <!-- Form -->
     <div class="col-lg-8">
         <form action="." method="POST">
         {% csrf_token %}
@@ -31,8 +32,7 @@
         </div>
         <!-- Form fields END -->
 
-        <!-- Form button -->
-        <div class="col-sm-3">
+        <!-- Form errors -->
         <div class="row text-left">
         {% if form.errors %}
             {% for field in form %}
@@ -49,18 +49,25 @@
         {% endfor %}
         {% endif %}
         </div>
-        <div  class="row text-left mb-1">
-        <input style='margin-top: 5px;' type="submit" class="btn btn-primary btn-sm" value="Update">
+        <!-- Form errors END -->
+
+        <!-- Form button -->
+        <div class="row">
+        <div class="col">
+            <button style='margin-top: 5px;' type="submit" class="btn btn-primary btn-sm">Update</button>
         </div>
         </div>
         <!-- Form button END -->
 
         </form>
     </div>
-    </div>
     <!-- Form END -->
 
-    {{div| safe}}
-    {{script | safe}}
+    <!-- Dashboard -->
+        {{div | safe}}
+        {{script | safe}}
+    <!-- Dashboard END -->
+
+    </div>
 
 {% endblock %}
