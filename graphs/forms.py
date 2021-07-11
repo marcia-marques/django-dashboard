@@ -1,5 +1,22 @@
 from django import forms
 
+from data.models import Campaign
+
+
+class DateInput(forms.DateInput):
+    input_type = 'date'
+
+
+class DateRangeModelForm(forms.ModelForm):
+    class Meta:
+        model = Campaign
+        fields = ['start_date', 'end_date', 'var1', 'var2']
+        widgets = {
+            'start_date': DateInput(attrs={'class': 'form-control'}),
+            'end_date': DateInput(attrs={'class': 'form-control'}),
+            'var1': forms.TextInput(attrs={'class': 'form-control'}),
+            'var2': forms.TextInput(attrs={'class': 'form-control'})}
+
 
 class DateRangeForm(forms.Form):
     start_date = forms.DateField(widget=forms.DateInput(

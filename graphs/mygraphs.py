@@ -25,7 +25,7 @@ def time_series(df, var1, var2, color1='#1f77b4', color2='#ff7f0e'):
 
     # hover tool
     hover_tool_p = HoverTool(
-        tooltips=[('date', '@DATE_TIME{%Y-%m-%d %H}'),
+        tooltips=[('date', '@DATE_TIME{%m/%d/%Y %H}'),
                   ('value', '$y')],
         formatters={'@DATE_TIME': 'datetime'})
 
