@@ -5,13 +5,23 @@
     <h1>Graphs</h1>
 
     <ul>
-    {% for campaign in campaigns %}
-    
-        <li>
-          <a href="{{ campaign.id }}">
-            {{ campaign.name }}
-          </a>
-        </li>
+      {% for campaign in campaigns %}
+
+      <li>{{ campaign.name }}
+        <ul>
+            <li>
+              <a href="{{ campaign.id }}">
+                Analysis
+              </a>
+            </li>
+            
+            <li>
+              <a href="#">
+                Raw Data
+              </a>
+            </li>
+        </ul>
+      </li>
 
     {% endfor %}
     <ul>
