@@ -7,6 +7,12 @@ from .forms import DateRangeModelForm
 from .mygraphs import bokeh_dashboard
 
 
+def graphs_raw(request, id):
+    campaign = Campaign.objects.get(id=id)
+    context = {'campaign': campaign}
+    return render(request, 'graphs/graphs_raw.html', context)
+
+
 def graphs_list(request):
     campaigns = Campaign.objects.all()
     context = {'campaigns': campaigns}
