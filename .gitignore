@@ -1,5 +1,5 @@
 # database
-*.sqlite3
+# *.sqlite3
 
 # pycache
 __pycache__
