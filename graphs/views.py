@@ -38,18 +38,10 @@ def graphs_detail(request, id):
                     'var2': var2}
 
     # form
-    # form = DateRangeModelForm(request.POST or None, initial=initial_data)
-    # if form.is_valid():
-    #     start_date = request.POST.get('start_date')
-    #     end_date = request.POST.get('end_date')
-    #     var1 = request.POST.get('var1')
-    #     var2 = request.POST.get('var2')
+    var_list = campaign.var_list.split(',')[1:]
+    var_choices = list(zip(var_list, var_list))
 
-    # new form
-    mylist = campaign.mylist.split(',')
-    var_choices = list(zip(mylist, mylist))
-
-    date_range_form = DateRangeFormFunction(var_choices)
+    date_range_form = DateRangeFormFunction(var_choices, start_date, end_date)
 
     form = date_range_form(request.POST or None, initial=initial_data)
     if form.is_valid():

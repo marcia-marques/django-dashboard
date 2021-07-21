@@ -10,3 +10,6 @@ docs/build
 # media files
 media/files/*.txt
 media/pictures/*.png
+
+# migrations
+data/migrations

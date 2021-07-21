@@ -14,7 +14,7 @@ class Campaign(models.Model):
     end_date = models.DateField(max_length=20, blank=True, null=True)
     var1 = models.CharField(max_length=10, blank=True, null=True)
     var2 = models.CharField(max_length=10, blank=True, null=True)
-    mylist = models.TextField(max_length=150, blank=True, null=True)
+    var_list = models.TextField(max_length=150, blank=True, null=True)
 
     def save(self, *args, **kwargs):
         df = pd.read_csv(self.file)
@@ -24,11 +24,11 @@ class Campaign(models.Model):
         self.var1 = [x for x in df.columns if 'CO2_dry' in x][0]
         self.var2 = [x for x in df.columns if 'CH4_dry' in x][0]
 
-        mylist = str(list(df.columns))
+        var_list = str(list(df.columns))
         mapping = [('[', ''), (']', ''), ("'", ''), (' ', '')]
         for k, v in mapping:
-            mylist = mylist.replace(k, v)
-        self.mylist = mylist
+            var_list = var_list.replace(k, v)
+        self.var_list = var_list
 
         super().save(*args, **kwargs)
 
