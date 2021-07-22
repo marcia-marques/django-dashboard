@@ -6,10 +6,11 @@ class Campaign(models.Model):
 
     name = models.CharField(max_length=25)
     description = models.TextField(max_length=300)
-    latitude = models.DecimalField(max_digits=13, decimal_places=9)
-    longitude = models.DecimalField(max_digits=13, decimal_places=9)
+    latitude = models.DecimalField(max_digits=11, decimal_places=6)
+    longitude = models.DecimalField(max_digits=11, decimal_places=6)
     picture = models.ImageField(upload_to='pictures/')
     file = models.FileField(upload_to='files/')
+    raw_data_path = models.CharField(max_length=100, blank=True, null=True)
     start_date = models.DateField(max_length=20, blank=True, null=True)
     end_date = models.DateField(max_length=20, blank=True, null=True)
     var1 = models.CharField(max_length=10, blank=True, null=True)

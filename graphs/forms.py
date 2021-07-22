@@ -1,6 +1,16 @@
 from django import forms
 
 
+def DataRawFormFunction(path):
+
+    class DataRawForm(forms.Form):
+        files_name = forms.FilePathField(widget=forms.Select(
+            attrs={'class': 'form-select form-select-sm'}),
+            recursive=True, path=path)
+
+    return DataRawForm
+
+
 class DateInput(forms.DateInput):
     input_type = 'date'
 
@@ -15,10 +25,10 @@ def DateRangeFormFunction(var_choices, min_date, max_date):
             attrs={'class': 'form-control form-control-sm'}),
         )
         var1 = forms.ChoiceField(widget=forms.Select(
-            attrs={'class': 'form-control form-control-sm'}),
+            attrs={'class': 'form-select form-select-sm'}),
             choices=var_choices)
         var2 = forms.ChoiceField(widget=forms.Select(
-            attrs={'class': 'form-control form-control-sm'}),
+            attrs={'class': 'form-select form-select-sm'}),
             choices=var_choices)
 
         def clean(self):

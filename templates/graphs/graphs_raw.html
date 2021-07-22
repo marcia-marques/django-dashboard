@@ -5,4 +5,39 @@
     <h1>{{ campaign.name }}</h1>
     <h2>Raw Data</h2>
 
+    <!-- Form -->
+    <div align="center">
+
+    <div class="col-lg-8">
+        <form action="." method="POST">
+        {% csrf_token %}
+
+        <!-- Form fields -->
+        <div class="row justify-content-center">
+            <div class="col">
+                <div class="row text-muted" style="font-size: 14px">Choose the file:</div>
+                <div class="row">{{ form.files_name }}</div>
+            </div>
+        </div>
+        <!-- Form fields END -->
+
+        <!-- Form button -->
+        <div class="row">
+        <div class="col">
+            <button style='margin-top: 5px;' type="submit" class="btn btn-primary btn-sm">Update</button>
+        </div>
+        </div>
+        <!-- Form button END -->
+
+        </form>
+    </div>    
+    <!-- Form END -->
+
+    <!-- Dashboard -->
+        {{div | safe}}
+        {{script | safe}}
+    <!-- Dashboard END -->
+
+    </div>
+
 {% endblock %}

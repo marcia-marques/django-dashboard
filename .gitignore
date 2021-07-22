@@ -1,5 +1,5 @@
 # database
-# *.sqlite3
+*.sqlite3
 
 # pycache
 __pycache__
@@ -10,6 +10,8 @@ docs/build
 # media files
 media/files/*.txt
 media/pictures/*.png
+media/raw_data/*
 
 # migrations
 data/migrations
+graphs/migrations

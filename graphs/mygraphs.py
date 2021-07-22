@@ -4,6 +4,40 @@ from bokeh.models import Range1d, ColumnDataSource, LinearAxis, HoverTool
 from bokeh.layouts import column, Spacer, row, grid
 
 
+def bokeh_raw(df, color='#1f77b4'):
+
+    # source
+    source = ColumnDataSource(df)
+
+    # hover tool
+    hover_tool_p = HoverTool(
+        tooltips=[('date', '@DATE_TIME{%m/%d/%Y %H}'),
+                  ('value', '$y')],
+        formatters={'@DATE_TIME': 'datetime'})
+
+    # plot
+    p1 = figure(
+        plot_height=300,
+        plot_width=990,
+        tools="pan, box_zoom, reset",
+        toolbar_location="right",
+        x_axis_type="datetime",
+        x_axis_location="below")
+
+    p1.line(x='DATE_TIME', y='CO2', legend_label='CO2',
+            source=source, line_color=color)
+    p1.line(x='DATE_TIME', y='CO2_dry', legend_label='CO2_dry',
+            source=source, line_color=color)
+
+    p1.add_tools(hover_tool_p)
+
+    a = column(row(p1))
+    my_layout = grid([a], ncols=1)
+    script, div = components(my_layout)
+
+    return script, div
+
+
 def bokeh_dashboard(df, var1, var2):
 
     p1 = time_series(df, var1, var2)

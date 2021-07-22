@@ -1,15 +1,42 @@
 from django.shortcuts import render
 import pandas as pd
 import numpy as np
+# import os
 
 from data.models import Campaign
-from .forms import DateRangeFormFunction
-from .mygraphs import bokeh_dashboard
+from .forms import DateRangeFormFunction, DataRawFormFunction
+from .mygraphs import bokeh_dashboard, bokeh_raw
 
 
 def graphs_raw(request, id):
     campaign = Campaign.objects.get(id=id)
-    context = {'campaign': campaign}
+    path = campaign.raw_data_path
+
+    # filename = []
+    # for dirs, subdir, files in os.walk(path):
+    #     subdir.sort()
+    #     files.sort()
+    #     for file in files:
+    #         filename.append(dirs + os.sep + file)
+    # file_path = filename[-1]  # full path until .dat
+    # print(file_path)
+
+    # path until DataLog_User
+    raw_data_form = DataRawFormFunction(path)
+    form = raw_data_form(request.POST or None)
+
+    # dataframe
+    # df = pd.read_csv(
+    #     file_path,
+    #     sep='\s+', engine='python',
+    #     parse_dates=[['DATE', 'TIME']])
+    # df['DATE_TIME'] = pd.to_datetime(df.DATE_TIME)
+
+    # script, div = bokeh_raw(df)
+    # context = {'campaign': campaign,
+    #            'form': form,
+    #            'script': script, 'div': div}
+    context = {'form': form}
     return render(request, 'graphs/graphs_raw.html', context)
 
 
