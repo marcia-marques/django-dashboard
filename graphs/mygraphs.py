@@ -9,29 +9,34 @@ def bokeh_raw(df, color='#1f77b4'):
     # source
     source = ColumnDataSource(df)
 
+    myvars = []
+    for var in ['CO', 'CO2', 'CH4', 'H2O', 'Press', 'ALARM']:
+        myvars += [x for x in df.columns if var in x]
+    myvars = list(dict.fromkeys(myvars))
+
     # hover tool
     hover_tool_p = HoverTool(
-        tooltips=[('date', '@DATE_TIME{%m/%d/%Y %H}'),
+        tooltips=[('date', '@DATE_TIME{%m/%d/%Y %H:%M:%S}'),
                   ('value', '$y')],
         formatters={'@DATE_TIME': 'datetime'})
 
-    # plot
-    p1 = figure(
-        plot_height=300,
-        plot_width=990,
-        tools="pan, box_zoom, reset",
-        toolbar_location="right",
-        x_axis_type="datetime",
-        x_axis_location="below")
+    plots = []
+    for myvar in myvars:
+        p = figure(plot_height=100,
+                   plot_width=900,
+                   toolbar_location=None,
+                   x_axis_type="datetime",
+                   x_axis_location="below")
+        p.line(x='DATE_TIME', y=myvar, legend_label=myvar,
+               source=source, line_color=color)
+        p.add_tools(hover_tool_p)
+        p.xaxis.visible = False
+        p.legend.background_fill_alpha = 0.75
+        p.legend.spacing = 0
+        p.legend.padding = 2
+        plots.append(p)
 
-    p1.line(x='DATE_TIME', y='CO2', legend_label='CO2',
-            source=source, line_color=color)
-    p1.line(x='DATE_TIME', y='CO2_dry', legend_label='CO2_dry',
-            source=source, line_color=color)
-
-    p1.add_tools(hover_tool_p)
-
-    a = column(row(p1))
+    a = column(*plots)
     my_layout = grid([a], ncols=1)
     script, div = components(my_layout)
 

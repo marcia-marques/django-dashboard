@@ -1,12 +1,12 @@
 from django import forms
 
 
-def DataRawFormFunction(path):
+def DataRawFormFunction(file_choices):
 
     class DataRawForm(forms.Form):
-        files_name = forms.FilePathField(widget=forms.Select(
+        files_name = forms.ChoiceField(widget=forms.Select(
             attrs={'class': 'form-select form-select-sm'}),
-            recursive=True, path=path)
+            choices=file_choices)
 
     return DataRawForm
 
