@@ -30,6 +30,13 @@ def graphs_raw(request, id):
         form = raw_data_form(request.POST or None, initial=initial_data)
         if form.is_valid():
             files_name = request.POST.get('files_name')
+            idx = filenames.index(files_name)
+            if '_prev' in request.POST:
+                files_name = filenames[idx + 1]
+                form = raw_data_form(initial={'files_name': files_name})
+            elif '_next' in request.POST:
+                files_name = filenames[idx - 1]
+                form = raw_data_form(initial={'files_name': files_name})
 
         # dataframe
         df = pd.read_csv(files_name,
