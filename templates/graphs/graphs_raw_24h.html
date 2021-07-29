@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h1>{{ campaign.name }}</h1>
+    <h2>Raw Data 24</h2>
+
+    <!-- Form -->
+    <div align="center">
+
+    <div class="col-lg-8">
+        <form action="." method="POST">
+        {% csrf_token %}
+
+        <!-- Form fields -->
+        <div class="row justify-content-center">
+            <div class="col">
+                <div class="row text-muted" style="font-size: 14px">Choose the day:</div>
+                <div class="row">{{ form.days }}</div>
+            </div>
+        </div>
+        <!-- Form fields END -->
+
+        <!-- Form button -->
+        <div class="row">
+        <div class="col">
+            <button style='margin-top:5px;' type="submit" name="_prev" class="btn btn-primary btn-sm">
+              <i class="bi bi-arrow-left"></i>
+            </button>
+        </div>
+        <div class="col">
+            <button style='margin-top:5px;' type="submit" name="_submit" class="btn btn-primary btn-sm">
+              Update
+            </button>
+        </div>
+        <div class="col">
+            <button style='margin-top:5px;' type="submit" name="_next" class="btn btn-primary btn-sm">
+              <i class="bi bi-arrow-right"></i>
+            </button>
+        </div>
+        </div>
+        <!-- Form button END -->
+
+        </form>
+    </div>    
+    <!-- Form END -->
+
+    <!-- Dashboard -->
+        {{div | safe}}
+        {{script | safe}}
+    <!-- Dashboard END -->
+
+    </div>
+
+{% endblock %}

@@ -4,8 +4,44 @@ import numpy as np
 import glob
 
 from data.models import Campaign
-from .forms import DateRangeFormFunction, DataRawFormFunction
+from .forms import (DateRangeFormFunction,
+                    DataRawFormFunction, DataRaw24hFormFunction)
 from .mygraphs import bokeh_dashboard, bokeh_raw
+
+
+def graphs_raw_24h(request, id):
+    campaign = Campaign.objects.get(id=id)
+
+    # form choices
+    path = campaign.raw_data_path
+    filenames = [filename for filename in glob.iglob(
+        path + '*/*/*', recursive=True)]
+    if filenames:
+        filenames.sort(reverse=True)
+        date_choices = list([filename[-10:] for filename in filenames])
+        date_choices = list(zip(date_choices, date_choices))
+
+        # initial values
+        days = date_choices[0]
+        initial_data = {'days': days}
+
+        # form
+        raw_data_24h_form = DataRaw24hFormFunction(date_choices)
+        form = raw_data_24h_form(request.POST or None, initial=initial_data)
+        if form.is_valid():
+            days = request.POST.get('days')
+
+        context = {'campaign': campaign,
+                   'form': form}
+        return render(request, 'graphs/graphs_raw_24h.html', context)
+
+    else:
+
+        # form
+        raw_data_24h_form = DataRaw24hFormFunction([('', 'no data available')])
+        form = raw_data_24h_form(request.POST or None)
+        context = {'campaign': campaign, 'form': form}
+        return render(request, 'graphs/graphs_raw_24h.html', context)
 
 
 def graphs_raw(request, id):
@@ -54,10 +90,10 @@ def graphs_raw(request, id):
     else:
 
         # form
-        raw_data_form = DataRawFormFunction([('', '')])
-        form = raw_data_form(request.POST or None, initial='')
-
-        return render(request, 'graphs/graphs_raw.html', {'form': form})
+        raw_data_form = DataRawFormFunction([('', 'no data available')])
+        form = raw_data_form(request.POST or None)
+        context = {'campaign': campaign, 'form': form}
+        return render(request, 'graphs/graphs_raw.html', context)
 
 
 def graphs_list(request):
