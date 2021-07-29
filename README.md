@@ -7,7 +7,7 @@ Django dashboard using Bokeh.
 
 ## Screenshots
 
-![image](https://user-images.githubusercontent.com/75334161/125207264-a3a2e980-e261-11eb-86c6-14b0a39784b4.png)
+![dashboard-1](https://user-images.githubusercontent.com/75334161/127421361-4824f4bc-b9ee-4a53-a8b6-2d46b8941f26.png)
 
 ## License
 
