@@ -2,6 +2,7 @@ from django.shortcuts import render
 import pandas as pd
 import numpy as np
 import glob
+from datetime import datetime, timedelta
 
 from data.models import Campaign
 from .forms import (DateRangeFormFunction,
@@ -18,11 +19,11 @@ def graphs_raw_24h(request, id):
         path + '*/*/*', recursive=True)]
     if filenames:
         filenames.sort(reverse=True)
-        date_choices = list([filename[-10:] for filename in filenames])
-        date_choices = list(zip(date_choices, date_choices))
+        dates = list([filename[-10:] for filename in filenames])
+        date_choices = list(zip(dates, dates))
 
         # initial values
-        days = date_choices[0]
+        days = dates[0]
         initial_data = {'days': days}
 
         # form
@@ -30,9 +31,33 @@ def graphs_raw_24h(request, id):
         form = raw_data_24h_form(request.POST or None, initial=initial_data)
         if form.is_valid():
             days = request.POST.get('days')
+            if '_prev' in request.POST:
+                days = (datetime.strptime(
+                    days, '%Y/%m/%d') - timedelta(
+                    days=1)).strftime('%Y/%m/%d')
+                form = raw_data_24h_form(initial={'days': days})
+            elif '_next' in request.POST:
+                days = (datetime.strptime(
+                    days, '%Y/%m/%d') + timedelta(
+                    days=1)).strftime('%Y/%m/%d')
+                form = raw_data_24h_form(initial={'days': days})
 
+        # dataframe
+        filenames = [filename for filename in glob.iglob(
+            path + days + '/*', recursive=True)]
+        filenames.sort()
+        list_of_dfs = [pd.read_csv(filename,
+                                   sep=r'\s+',
+                                   engine='python',
+                                   parse_dates=[['DATE', 'TIME']])
+                       for filename in filenames]
+        df = pd.concat(list_of_dfs, ignore_index=True)
+        df['DATE_TIME'] = pd.to_datetime(df.DATE_TIME)
+
+        script, div = bokeh_raw(df)
         context = {'campaign': campaign,
-                   'form': form}
+                   'form': form,
+                   'script': script, 'div': div}
         return render(request, 'graphs/graphs_raw_24h.html', context)
 
     else:
