@@ -9,10 +9,8 @@ def bokeh_raw(df, color='#1f77b4'):
     # source
     source = ColumnDataSource(df)
 
-    myvars = []
-    for var in ['CO', 'CO2', 'CH4', 'H2O', 'Press', 'ALARM']:
-        myvars += [x for x in df.columns if var in x]
-    myvars = list(dict.fromkeys(myvars))
+    # variables
+    myvars = df.columns[0:-2]
 
     # hover tool
     hover_tool_p = HoverTool(
@@ -39,6 +37,7 @@ def bokeh_raw(df, color='#1f77b4'):
     a = column(*plots)
     my_layout = grid([a], ncols=1)
     script, div = components(my_layout)
+    # script, div = components(a)
 
     return script, div
 

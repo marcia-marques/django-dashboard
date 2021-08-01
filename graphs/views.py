@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 import glob
 from datetime import datetime, timedelta
+import dask.dataframe as dd
 
 from data.models import Campaign
 from .forms import (DateRangeFormFunction,
@@ -43,16 +44,20 @@ def graphs_raw_24h(request, id):
                 form = raw_data_24h_form(initial={'days': days})
 
         # dataframe
+        usecols = campaign.raw_var_list.split(',')
+        dtype = campaign.raw_dtypes.split(',')
+        dtype = dict(zip(usecols, dtype))
         filenames = [filename for filename in glob.iglob(
             path + days + '/*', recursive=True)]
         filenames.sort()
-        list_of_dfs = [pd.read_csv(filename,
-                                   sep=r'\s+',
-                                   engine='python',
-                                   parse_dates=[['DATE', 'TIME']])
-                       for filename in filenames]
-        df = pd.concat(list_of_dfs, ignore_index=True)
-        df['DATE_TIME'] = pd.to_datetime(df.DATE_TIME)
+        df = dd.read_csv(filenames,
+                         sep=r'\s+',
+                         usecols=usecols,
+                         dtype=dtype,
+                         )
+        df = df.compute()
+        df['DATE_TIME'] = pd.to_datetime(df['DATE'] + ' ' + df['TIME'])
+        df = df.drop(['DATE', 'TIME'], axis=1)
 
         script, div = bokeh_raw(df)
         context = {'campaign': campaign,
@@ -100,11 +105,17 @@ def graphs_raw(request, id):
                 form = raw_data_form(initial={'files_name': files_name})
 
         # dataframe
-        df = pd.read_csv(files_name,
+        usecols = campaign.raw_var_list.split(',')
+        dtype = campaign.raw_dtypes.split(',')
+        dtype = dict(zip(usecols, dtype))
+        df = dd.read_csv(files_name,
                          sep=r'\s+',
-                         engine='python',
-                         parse_dates=[['DATE', 'TIME']])
-        df['DATE_TIME'] = pd.to_datetime(df.DATE_TIME)
+                         usecols=usecols,
+                         dtype=dtype,
+                         )
+        df = df.compute()
+        df['DATE_TIME'] = pd.to_datetime(df['DATE'] + ' ' + df['TIME'])
+        df = df.drop(['DATE', 'TIME'], axis=1)
 
         script, div = bokeh_raw(df)
         context = {'campaign': campaign,

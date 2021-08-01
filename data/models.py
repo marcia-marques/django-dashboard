@@ -11,6 +11,8 @@ class Campaign(models.Model):
     picture = models.ImageField(upload_to='pictures/')
     file = models.FileField(upload_to='files/')
     raw_data_path = models.CharField(max_length=100, blank=True, null=True)
+    raw_var_list = models.TextField(max_length=150, blank=True, null=True)
+    raw_dtypes = models.TextField(max_length=150, blank=True, null=True)
     start_date = models.DateField(max_length=20, blank=True, null=True)
     end_date = models.DateField(max_length=20, blank=True, null=True)
     var1 = models.CharField(max_length=10, blank=True, null=True)
