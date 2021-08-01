@@ -25,7 +25,7 @@ class DateInput(forms.DateInput):
     input_type = 'date'
 
 
-def DateRangeFormFunction(var_choices, min_date, max_date):
+def DateRangeFormFunction(var_choices_1, var_choices_2, min_date, max_date):
 
     class DateRangeForm(forms.Form):
         start_date = forms.DateField(widget=DateInput(
@@ -36,10 +36,10 @@ def DateRangeFormFunction(var_choices, min_date, max_date):
         )
         var1 = forms.ChoiceField(widget=forms.Select(
             attrs={'class': 'form-select form-select-sm'}),
-            choices=var_choices)
+            choices=var_choices_1)
         var2 = forms.ChoiceField(widget=forms.Select(
             attrs={'class': 'form-select form-select-sm'}),
-            choices=var_choices)
+            choices=var_choices_2)
 
         def clean(self):
             cleaned_data = super().clean()

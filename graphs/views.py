@@ -143,6 +143,7 @@ def graphs_detail(request, id):
 
     # dataframe
     df = pd.read_csv(campaign.file)
+    df['none'] = np.nan
     df['DATE_TIME'] = pd.to_datetime(df.DATE_TIME)
 
     # initial values
@@ -158,10 +159,13 @@ def graphs_detail(request, id):
 
     # form choices
     var_list = campaign.var_list.split(',')[1:]
-    var_choices = list(zip(var_list, var_list))
+    var_choices_1 = list(zip(var_list, var_list))
+    var_choices_2 = var_list.append('none')
+    var_choices_2 = list(zip(var_list, var_list))
 
     # form
-    date_range_form = DateRangeFormFunction(var_choices, start_date, end_date)
+    date_range_form = DateRangeFormFunction(
+        var_choices_1, var_choices_2, start_date, end_date)
     form = date_range_form(request.POST or None, initial=initial_data)
     if form.is_valid():
         start_date = request.POST.get('start_date')
