@@ -97,11 +97,18 @@ def graphs_raw(request, id):
         if form.is_valid():
             files_name = request.POST.get('files_name')
             idx = filenames.index(files_name)
+            print('idx', idx)
             if '_prev' in request.POST:
-                files_name = filenames[idx + 1]
+                if idx + 1 > (len(filenames) - 1):
+                    files_name = filenames[idx + 1 - (len(filenames))]
+                    print('prev', idx + 1 - (len(filenames)))
+                else:
+                    files_name = filenames[idx + 1]
+                    print('prev', idx + 1)
                 form = raw_data_form(initial={'files_name': files_name})
             elif '_next' in request.POST:
                 files_name = filenames[idx - 1]
+                print('next', idx - 1)
                 form = raw_data_form(initial={'files_name': files_name})
 
         # dataframe

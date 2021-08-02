@@ -10,7 +10,8 @@ def bokeh_raw(df, color='#1f77b4'):
     source = ColumnDataSource(df)
 
     # variables
-    myvars = df.columns[0:-2]
+    myvars = [x for x in df.columns[0:-2] if '_dry' not in x]
+    myvars_dry = [x for x in df.columns[0:-2] if '_dry' in x]
 
     # hover tool
     hover_tool_p = HoverTool(
@@ -19,20 +20,34 @@ def bokeh_raw(df, color='#1f77b4'):
         formatters={'@DATE_TIME': 'datetime'})
 
     plots = []
+    i = 0
     for myvar in myvars:
         p = figure(plot_height=100,
                    plot_width=900,
-                   toolbar_location=None,
+                   # toolbar_location=None,
+                   toolbar_location='right',
+                   tools="pan, box_zoom, reset",
                    x_axis_type="datetime",
                    x_axis_location="below")
-        p.line(x='DATE_TIME', y=myvar, legend_label=myvar,
-               source=source, line_color=color)
+        p.line(x='DATE_TIME', y=myvar,
+               legend_label=myvar, source=source, line_color=color)
+        if myvar + '_dry' in myvars_dry:
+            p.line(x='DATE_TIME', y=myvar + '_dry',
+                   legend_label=myvar + '_dry', source=source,
+                   line_color=color, alpha=0.5)
         p.add_tools(hover_tool_p)
         p.xaxis.visible = False
         p.legend.background_fill_alpha = 0.75
+        p.legend.click_policy = "hide"
         p.legend.spacing = 0
         p.legend.padding = 2
+        p.toolbar.logo = None
         plots.append(p)
+        if i == 0:
+            x_range = p.x_range
+        else:
+            p.x_range = x_range
+        i += 1
 
     a = column(*plots)
     my_layout = grid([a], ncols=1)
